@@ -2,7 +2,7 @@ let score = 501;
 let dart = [0, 0, 0];
 let dart_bool = [false, false, false];
 let sum = 0;
-var checkouts, values, special_Values, activation_words;
+var checkouts, values, special_values, activation_words;
 let ready = true;
 let mulitplier_letters = [1,1,1];
 let dartadd;
@@ -100,15 +100,15 @@ function calcPoints(query){
         dart_bool[current_throw] = true;
       }
     }
-    sum += dart[current_throw] * multiplier;
+    sum += dart[current_throw] * multiplier; 
+  }
+  if((score - sum) < 0){
+    undo();
+    ready = false;
   }
   if(dart_bool[0] == true && dart_bool[1] == true && dart_bool[2] == true){
     ready=false;
     score -= sum;
-    if(score <= 1){
-      score += sum;
-      reset();
-    }
   }
 }
 
@@ -121,6 +121,11 @@ function reset(){
   current_throw = 0;
 }
 
+function undo(){
+  reset();
+  score += sum;
+}
+
 function drawScore(){
   textSize(200);
   textAlign(CENTER);
@@ -128,6 +133,17 @@ function drawScore(){
   else fill(255,0,0);
   text(score, width/2, height/4);
   fill(0,0,0);
+}
+
+function drawThrows(){
+  for(let i = 0;i<3;i++){
+    textSize(100);
+    textAlign(CENTER);
+    if(mulitplier_letters[i] == 1)dartadd = '';
+    if(mulitplier_letters[i] == 2)dartadd = 'D';
+    if(mulitplier_letters[i] == 3)dartadd = 'T';
+    text(dartadd + dart[i].toString(), width/2, height/2 -100 + i * 100);
+  }
 }
 
 function drawCheckouts(){
@@ -147,26 +163,15 @@ function drawCheckouts(){
   
 }
 
-function drawInstructions(){
-  textSize(20);
-  text('Sage "Dart, weiter" um die Eingabe zu bestätigen. \n Sage "Dart, noch mal" um die Eingabe rückgängig zu machen.', width/2, height/4 + 50);
-  text('Sprich in folgendem Syntax: "Dart, Wurf 1 und Wurf 2 und Wurf 3".', width/2, 50);
-}
-
-function drawThrows(){
-  for(let i = 0;i<3;i++){
-    textSize(100);
-    textAlign(CENTER);
-    if(mulitplier_letters[i] == 1)dartadd = '';
-    if(mulitplier_letters[i] == 2)dartadd = 'D';
-    if(mulitplier_letters[i] == 3)dartadd = 'T';
-    text(dartadd + dart[i].toString(), width/2, height/2 -100 + i * 100);
-  }
-}
-
 function drawSpeech(){
   textSize(20);
   fill(105,105,105);
   text(said, width/2, height * 1/11 ); 
   fill(0,0,0); 
+}
+
+function drawInstructions(){
+  textSize(20);
+  text('Sage "Dart, weiter" um die Eingabe zu bestätigen. \n Sage "Dart, noch mal" um die Eingabe rückgängig zu machen.', width/2, height/4 + 50);
+  text('Sprich in folgendem Syntax: "Dart, Wurf 1 und Wurf 2 und Wurf 3".', width/2, 50);
 }
