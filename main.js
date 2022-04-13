@@ -29,8 +29,7 @@ function setup() {
   
     annyang.addCommands(commands);   
     annyang.setLanguage('de-DE')
-    annyang.start({ autoRestart: true, continuous: true });
-
+    annyang.start({ autoRestart: true, continuous: false });
   } 
 
 }
