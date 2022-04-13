@@ -5,6 +5,7 @@ var checkouts, values, special_Values, activation_words;
 let ready = true;
 let mulitplier_letters = [1,1,1];
 let dartadd;
+let said;
 
 
 
@@ -43,8 +44,8 @@ recognition.addEventListener('result', event => {
   if(event.results[0].isFinal) {
     for(let j = 0; j <= Object.keys(activation_words).length; j++){
       if(transcript.includes(activation_words[j])){
-        array = transcript.replace(activation_words[j] + " ", "");
-        array = array.split(" und ");
+        said = transcript.replace(activation_words[j] + " ", "");
+        array = said.split(" und ");
         option(array);
       }
     }
@@ -81,7 +82,7 @@ function drawScore(){
   fill(0,0,0);
 
   textSize(20);
-  text(transcript, width/2, height * 3/4 );  
+  text(said, width/2, height * 3/4 );  
 }
 
 function option(array){
