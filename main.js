@@ -1,16 +1,13 @@
 let score = 501;
 let dart = [0, 0, 0];
+let dart_bool = [false, false, false];
 let sum = 0;
 var checkouts, values, special_Values, activation_words;
 let ready = true;
 let mulitplier_letters = [1,1,1];
 let dartadd;
 let said;
-
-
-
-window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-const recognition = new SpeechRecognition();
+let current_throw = 0;
 var transcript;
 
 function preload(){
@@ -26,10 +23,18 @@ function preload(){
 function setup() {
   createCanvas(820,1180)
 
-  recognition.continious = false;
-  recognition.interimResults = false;
-  recognition.lang = 'de-de';
-  recognition.start();
+  if (annyang) {
+
+    var commands = {};
+    for(let j = 0; j <= Object.keys(activation_words).length; j++){
+      commands[activation_words[j] + ' *results'] = 'wake';
+    }
+  
+    annyang.addCommands(commands);   
+    annyang.setLanguage('de-DE')
+    annyang.start({ autoRestart: true, continuous: true });
+
+  } 
 
 }
 
@@ -38,25 +43,14 @@ function draw(){
   drawScore();
 }
 
-recognition.addEventListener('result', event => {
-  transcript = event.results[0][0].transcript;
-  // check if the voice input has ended
-  console.log(transcript);
-  if(event.results[0].isFinal) {
-    for(let j = 0; j <= Object.keys(activation_words).length; j++){
-      if(transcript.includes(activation_words[j])){
-        said = transcript.slice(transcript.indexOf(activation_words[j]) + activation_words[j].length+1);
-        array = said.split(" und ");
-        option(array);
-        console.log(array)
-      }
-    }
-  }
-});
+var wake = function(result) {
+  said = result;
+  array = said.split(" und ");
+  array = array.slice(0, 3);
+  option(array);
+  console.log(array)
+};
 
-recognition.addEventListener('end', event => {
-  recognition.start();
-});
 
 function drawScore(){
   textSize(200);
@@ -84,7 +78,7 @@ function drawScore(){
   fill(0,0,0);
 
   textSize(20);
-  text(said, width/2, height * 3/4 );  
+  text(transcript, width/2, height * 3/4 );  
 }
 
 function option(array){
@@ -94,28 +88,32 @@ function option(array){
     dart = [0,0,0];
     ready = true;
     mulitplier_letters = [1,1,1];
+    current_throw = 0;
+    dart_bool=[false,false,false];
   }
   else if(array.includes('rückgängig') || array.includes('noch mal') || array.includes('zurück')){
     undo();
   }
   else{
-    if(array.length == 3 && ready){
+    if(ready){
       points(array);
-      ready = false;
     }
   }  
 }
 
 function points(query){
   
-  console.log(query)
-  for(let i = 0;i<3;i++){
+  for(let i = 0;i<query.length;i++){
     let multiplier = 1;
+    
+    if(dart_bool[i] == true && query.length != 3)current_throw++;
+    else current_throw = i;
 
     //check special_values
     for(let j = 0; j < Object.keys(special_values).length; j++){
       if(query[i].includes(special_values[j][0])){
-        dart[i] = special_values[j][1];
+        dart[current_throw] = special_values[j][1];
+        dart_bool[current_throw] = true;
       }
     }
 
@@ -123,22 +121,24 @@ function points(query){
     for(let j = 0; j < Object.keys(multipliers).length;j++){
       if(query[i].includes(multipliers[j][0])){
         multiplier = multipliers[j][1];
-        mulitplier_letters[i] = multiplier;
+        mulitplier_letters[current_throw] = multiplier;
       }
     }
 
     //check values
     for(let j = 0; j < Object.keys(values).length;j++){
       if(query[i].includes(values[j][0])){
-        dart[i] = values[j][1];
+        dart[current_throw] = values[j][1];
+        dart_bool[current_throw] = true;
       }
     }
-    
-    console.log(multiplier, dart[i]);
-    sum += dart[i] * multiplier;
+    sum += dart[current_throw] * multiplier;
   }
-  score -= sum;
-  if(score <= 1)undo();
+  if(dart_bool[0] == true && dart_bool[1] == true && dart_bool[2] == true){
+    ready=false;
+    score -= sum;
+    if(score <= 1)undo();
+  }
 }
 
 function undo(){
@@ -147,4 +147,6 @@ function undo(){
   dart = [0,0,0];
   ready = true;
   mulitplier_letters = [1,1,1];
+  dart_bool=[false,false,false];
+  current_throw = 0;
 }
