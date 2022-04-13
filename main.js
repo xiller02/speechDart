@@ -8,7 +8,6 @@ let mulitplier_letters = [1,1,1];
 let dartadd;
 let said;
 let current_throw = 0;
-var transcript;
 
 function preload(){
   values = loadJSON('json/values.json');
@@ -27,7 +26,7 @@ function setup() {
 
     var commands = {};
     for(let j = 0; j <= Object.keys(activation_words).length; j++){
-      commands[activation_words[j] + ' *results'] = 'wake';
+      commands[activation_words[j] + ' *results'] = 'wakeWordSaid';
     }
   
     annyang.addCommands(commands);   
@@ -40,69 +39,39 @@ function setup() {
 
 function draw(){
   background(255,255,255);
+
   drawScore();
+  drawThrows();
+  drawCheckouts();
+  drawSpeech();
+  
+  //drawInstructions();
 }
 
-var wake = function(result) {
+var wakeWordSaid = function(result) {
   said = result;
   array = said.split(" und ");
   array = array.slice(0, 3);
-  option(array);
+  moveSelection(array);
   console.log(array)
 };
 
-
-function drawScore(){
-  textSize(200);
-  textAlign(CENTER);
-  if(ready)fill(0,255,0);
-  else fill(255,0,0);
-  text(score, width/2, height/4);
-
-  fill(0,0,0);
-  textSize(20);
-  text('Sage "Dart, weiter" um die Eingabe zu bestätigen. \n Sage "Dart, noch mal" um die Eingabe rückgängig zu machen.', width/2, height/4 + 50);
-  text('Sprich in folgendem Syntax: "Dart, Wurf 1 und Wurf 2 und Wurf 3".', width/2, 50);
-
-  for(let i = 0;i<3;i++){
-    textSize(100);
-    textAlign(CENTER);
-    if(mulitplier_letters[i] == 1)dartadd = '';
-    if(mulitplier_letters[i] == 2)dartadd = 'D';
-    if(mulitplier_letters[i] == 3)dartadd = 'T';
-    text(dartadd + dart[i].toString(), width/2, height/2 -100 + i * 100);
-  }
-
-  drawCheckouts();
-
-  textSize(20);
-  fill(105,105,105);
-  text(said, width/2, height * 1/11 ); 
-  fill(0,0,0); 
-}
-
-function option(array){
+function moveSelection(array){
 
   if(array.includes('weiter')){
-    sum = 0;
-    dart = [0,0,0];
-    ready = true;
-    mulitplier_letters = [1,1,1];
-    current_throw = 0;
-    dart_bool=[false,false,false];
+    reset();
   }
   else if(array.includes('rückgängig') || array.includes('noch mal') || array.includes('zurück')){
-    undo();
+    reset();
   }
   else{
     if(ready){
-      points(array);
+      calcPoints(array);
     }
   }  
 }
 
-function points(query){
-  
+function calcPoints(query){
   for(let i = 0;i<query.length;i++){
     let multiplier = 1;
     
@@ -137,18 +106,29 @@ function points(query){
   if(dart_bool[0] == true && dart_bool[1] == true && dart_bool[2] == true){
     ready=false;
     score -= sum;
-    if(score <= 1)undo();
+    if(score <= 1){
+      score += sum;
+      reset();
+    }
   }
 }
 
-function undo(){
-  score += sum;
+function reset(){
   sum = 0;
   dart = [0,0,0];
   ready = true;
   mulitplier_letters = [1,1,1];
   dart_bool=[false,false,false];
   current_throw = 0;
+}
+
+function drawScore(){
+  textSize(200);
+  textAlign(CENTER);
+  if(ready)fill(0,255,0);
+  else fill(255,0,0);
+  text(score, width/2, height/4);
+  fill(0,0,0);
 }
 
 function drawCheckouts(){
@@ -166,4 +146,28 @@ function drawCheckouts(){
     fill(0,0,0);
   }
   
+}
+
+function drawInstructions(){
+  textSize(20);
+  text('Sage "Dart, weiter" um die Eingabe zu bestätigen. \n Sage "Dart, noch mal" um die Eingabe rückgängig zu machen.', width/2, height/4 + 50);
+  text('Sprich in folgendem Syntax: "Dart, Wurf 1 und Wurf 2 und Wurf 3".', width/2, 50);
+}
+
+function drawThrows(){
+  for(let i = 0;i<3;i++){
+    textSize(100);
+    textAlign(CENTER);
+    if(mulitplier_letters[i] == 1)dartadd = '';
+    if(mulitplier_letters[i] == 2)dartadd = 'D';
+    if(mulitplier_letters[i] == 3)dartadd = 'T';
+    text(dartadd + dart[i].toString(), width/2, height/2 -100 + i * 100);
+  }
+}
+
+function drawSpeech(){
+  textSize(20);
+  fill(105,105,105);
+  text(said, width/2, height * 1/11 ); 
+  fill(0,0,0); 
 }
