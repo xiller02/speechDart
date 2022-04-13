@@ -20,17 +20,23 @@ function preload(){
 function setup() {
   createCanvas(820,1180)
 
-  if (annyang) {
+  if(annyang){
 
     var commands = {};
     for(let j = 0; j <= Object.keys(activation_words).length; j++){
       commands[activation_words[j] + ' *results'] = 'wakeWordSaid';
     }
+
+    annyang.addCallback('resultNoMatch', function(userSaid, commandText, phrases) {
+      console.log(userSaid)
+      said = "keine Stimme erkannt";
+    });
   
     annyang.addCommands(commands);   
     annyang.setLanguage('de-DE')
     annyang.start({ autoRestart: true, continuous: false });
-  } 
+  }
+  else said = "speech recognition is not supported in your browser";
 
 }
 
@@ -164,7 +170,7 @@ function drawCheckouts(){
 
 function drawSpeech(){
   textSize(20);
-  fill(105,105,105);
+  fill(150,150,150);
   text(said, width/2, height * 1/11 ); 
   fill(0,0,0); 
 }
