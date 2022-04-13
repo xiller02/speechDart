@@ -45,9 +45,10 @@ recognition.addEventListener('result', event => {
   if(event.results[0].isFinal) {
     for(let j = 0; j <= Object.keys(activation_words).length; j++){
       if(transcript.includes(activation_words[j])){
-        said = transcript.replace(activation_words[j] + " ", "");
+        said = transcript.slice(transcript.indexOf(activation_words[j]) + activation_words[j].length+1);
         array = said.split(" und ");
         option(array);
+        console.log(array)
       }
     }
   }
