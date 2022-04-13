@@ -73,12 +73,12 @@ function drawScore(){
     text(dartadd + dart[i].toString(), width/2, height/2 -100 + i * 100);
   }
 
-  fill(0,0,255);
-  text(checkouts[score.toString()], width/2, height * 3/4 - 80);  
-  fill(0,0,0);
+  drawCheckouts();
 
   textSize(20);
-  text(transcript, width/2, height * 3/4 );  
+  fill(105,105,105);
+  text(said, width/2, height * 1/11 ); 
+  fill(0,0,0); 
 }
 
 function option(array){
@@ -149,4 +149,21 @@ function undo(){
   mulitplier_letters = [1,1,1];
   dart_bool=[false,false,false];
   current_throw = 0;
+}
+
+function drawCheckouts(){
+  array = checkouts[score.toString()];
+
+  if(array != undefined){
+    let checkout = "";
+    for(value of array){
+      checkout += value + " "; 
+    }
+
+    checkout = checkout.replace(",", "  ");
+    fill(0,0,255);
+    text(checkout, width/2, height * 3/4 - 80);  
+    fill(0,0,0);
+  }
+  
 }
