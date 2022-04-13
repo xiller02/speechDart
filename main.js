@@ -1,4 +1,4 @@
-let score = 501;
+let score = 170;
 let dart = [0, 0, 0];
 let sum = 0;
 var checkouts, values, special_Values, activation_words;
@@ -78,7 +78,7 @@ function drawScore(){
   }
 
   fill(0,0,255);
-  text(checkouts[score.toString()], width/2, height * 3/4 );  
+  text(checkouts[score.toString()], width/2, height * 3/4 - 80);  
   fill(0,0,0);
 
   textSize(20);
