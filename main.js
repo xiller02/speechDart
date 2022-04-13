@@ -13,9 +13,7 @@ function preload(){
   values = loadJSON('json/values.json');
   multipliers = loadJSON('json/multipliers.json');
   special_values = loadJSON('json/special_Values.json');
-
   checkouts = loadJSON('json/checkouts.json');
-
   activation_words = loadJSON('json/activation_words.json');
 }
 
@@ -62,6 +60,7 @@ function moveSelection(array){
     reset();
   }
   else if(array.includes('rückgängig') || array.includes('noch mal') || array.includes('zurück')){
+    score += sum;
     reset();
   }
   else{
