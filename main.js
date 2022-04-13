@@ -1,4 +1,4 @@
-let score = 170;
+let score = 501;
 let dart = [0, 0, 0];
 let sum = 0;
 var checkouts, values, special_Values, activation_words;
@@ -26,6 +26,7 @@ function preload(){
 function setup() {
   createCanvas(820,1180)
 
+  recognition.continious = false;
   recognition.interimResults = false;
   recognition.lang = 'de-de';
   recognition.start();
