@@ -11,13 +11,28 @@
       margin: 0;
     }
   </style>
-  <script src="p5.js"></script>
+  <script src="lib/p5.js"></script>
+  <script src="lib/NoSleep.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
   <script src="main.js"></script>
+  
+
+
 </head>
 
 <body>
   <main>
+    <script>
+      var noSleep = new NoSleep();
+  
+      var wakeLockEnabled = false;
+      addEventListener('click', function() {
+        if (!wakeLockEnabled) {
+          noSleep.enable(); // keep the screen on!
+          wakeLockEnabled = true;
+        }
+      }, false);
+    </script>
   </main>
 </body>
 
