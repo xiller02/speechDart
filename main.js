@@ -31,7 +31,7 @@ function setup() {
 
     annyang.addCallback('resultNoMatch', function(userSaid, commandText, phrases) {
       console.log(userSaid)
-      said = "keine Stimme erkannt";
+      said = "kein Kommando erkannt";
     });
   
     annyang.addCommands(commands);   
@@ -147,6 +147,8 @@ function drawThrows(){
     if(mulitplier_letters[i] == 1)dartadd = '';
     if(mulitplier_letters[i] == 2)dartadd = 'D';
     if(mulitplier_letters[i] == 3)dartadd = 'T';
+    if(dart_bool[i])fill(0,0,0);
+    else fill(200,200,200);
     text(dartadd + dart[i].toString(), width/2, height/2 -100 + i * 100);
   }
 }
