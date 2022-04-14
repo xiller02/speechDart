@@ -2,7 +2,7 @@ let score = 501;
 let dart = [0, 0, 0];
 let dart_bool = [false, false, false];
 let sum = 0;
-var checkouts, values, special_values, activation_words;
+var checkouts, values, special_values, activation_words, undo_words, continue_words;
 let ready = true;
 let mulitplier_letters = [1,1,1];
 let dartadd;
@@ -15,6 +15,8 @@ function preload(){
   special_values = loadJSON('json/special_Values.json');
   checkouts = loadJSON('json/checkouts.json');
   activation_words = loadJSON('json/activation_words.json');
+  undo_words = loadJSON('json/undo.json');
+  continue_words = loadJSON('json/continue.json');
 }
 
 function setup() {
@@ -61,18 +63,16 @@ var wakeWordSaid = function(result) {
 
 function moveSelection(array){
 
-  if(array.includes('weiter')){
-    reset();
+  for(let j = 0; j < Object.keys(continue_words).length; j++){
+    if(array.includes(continue_words[j]))resetValues();
   }
-  else if(array.includes('rückgängig') || array.includes('noch mal') || array.includes('zurück')){
-    score += sum;
-    reset();
+
+  for(let j = 0; j < Object.keys(undo_words).length; j++){
+    if(array.includes(undo_words[j]))undo();
   }
-  else{
-    if(ready){
-      calcPoints(array);
-    }
-  }  
+  
+  if(ready)calcPoints(array);
+  
 }
 
 function calcPoints(query){
@@ -117,7 +117,7 @@ function calcPoints(query){
   }
 }
 
-function reset(){
+function resetValues(){
   sum = 0;
   dart = [0,0,0];
   ready = true;
@@ -127,8 +127,8 @@ function reset(){
 }
 
 function undo(){
-  reset();
   score += sum;
+  resetValues();
 }
 
 function drawScore(){
