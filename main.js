@@ -127,7 +127,7 @@ function resetValues(){
 }
 
 function undo(){
-  score += sum;
+  if(!ready)score += sum;
   resetValues();
 }
 
