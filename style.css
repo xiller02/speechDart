@@ -24,19 +24,20 @@ h3{
     padding: 10px;
 }
 
-.gamedetails{
-
+table {
+    margin: auto;
 }
 
-#checkouts{
+#checkouts {
     color: blue;
-    font-size: 50px;
-    margin:auto;
-    
+    font-size: 48px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin:auto; 
 }
 
-table{
-    margin:auto;
-    
 
+
+td{
+    width: 50%;
 }

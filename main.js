@@ -3,7 +3,9 @@ let score_temp = 501;
 let dart = [0, 0, 0];
 let dart_bool = [false, false, false];
 let sum = 0;
-var checkouts, values, special_values, activation_words, undo_words, continue_words;
+let game_sum = 0;
+let throws = 0;
+var checkout, values, special_values, activation_words, undo_words, continue_words;
 let ready = true;
 let mulitplier_letters = [1,1,1];
 let dartadd;
@@ -11,7 +13,7 @@ let said;
 let current_throw = 0;
 
 let doc_score, doc_speech;
-let doc_darts, doc_checkouts;
+let doc_darts, doc_checkouts, doc_average;
 
 function preload(){
   values = loadJSON('json/values.json');
@@ -29,6 +31,8 @@ function setup() {
   doc_speech = document.getElementById("speech");
   doc_darts = [document.getElementById("dart0"), document.getElementById("dart1"), document.getElementById("dart2")];
   doc_checkouts = document.getElementById("checkouts");
+  doc_average = document.getElementById("average");
+  doc_sum = document.getElementById("sum");
 
   if(annyang){
 
@@ -57,6 +61,7 @@ function draw(){
   drawThrows();
   drawCheckouts();
   drawSpeech();
+  drawGameDetails();
   
   //drawInstructions();
 }
@@ -130,6 +135,8 @@ function calcPoints(query){
 }
 
 function resetValues(){
+  for(bool of dart_bool)if(bool)throws++;
+  game_sum += sum;
   sum = 0;
   score = score_temp;
   dart = [0,0,0];
@@ -167,13 +174,13 @@ function drawCheckouts(){
   array = checkouts[score.toString()];
 
   if(array != undefined){
-    let checkout = "";
+    checkout = "";
     for(value of array){
       checkout += value + " "; 
     }
     checkout = checkout.replace(",", "  ");    
   }
-  else checkout = "kein checkout"
+  else checkout = "no checkout";
   doc_checkouts.innerHTML = checkout;
   
 }
@@ -187,3 +194,9 @@ function drawInstructions(){
   text('Sage "Dart, weiter" um die Eingabe zu bestätigen. \n Sage "Dart, noch mal" um die Eingabe rückgängig zu machen.', width/2, height/4 + 50);
   text('Sprich in folgendem Syntax: "Dart, Wurf 1 und Wurf 2 und Wurf 3".', width/2, 50);
 }
+
+function drawGameDetails(){
+  if(throws!=0)doc_average.innerHTML = "Ø " + parseFloat((game_sum / throws).toFixed(2));
+  doc_sum.innerHTML = sum;
+}
+
