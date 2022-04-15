@@ -95,26 +95,30 @@ function calcPoints(query){
       if(query[i].includes(multipliers[j][0])){
         multiplier = multipliers[j][1];
         mulitplier_letters[current_throw] = multiplier;
+        query[i] = query[i].slice(multipliers[j][0].length + 1);
       }
     }
 
     //check values
     for(let j = 0; j < Object.keys(values).length;j++){
-      if(query[i].includes(values[j][0])){
+      if(query[i].includes(values[j][0]) && values[j][0].length == query[i].length){
         dart[current_throw] = values[j][1];
         dart_bool[current_throw] = true;
       }
     }
-    sum += dart[current_throw] * multiplier; 
+
+    if(!dart_bool[current_throw])current_throw--;
+    if(dart_bool[current_throw]){
+      sum += dart[current_throw] * multiplier; 
+      score -= dart[current_throw] * multiplier; 
+    }
   }
   if((score - sum) < 0){
     undo();
     ready = false;
   }
-  if(dart_bool[0] == true && dart_bool[1] == true && dart_bool[2] == true){
-    ready=false;
-    score -= sum;
-  }
+  if(dart_bool[0] == true && dart_bool[1] == true && dart_bool[2] == true)ready=false;
+  console.log(dart_bool, dart)
 }
 
 function resetValues(){
@@ -127,7 +131,7 @@ function resetValues(){
 }
 
 function undo(){
-  if(!ready)score += sum;
+  score += sum;
   resetValues();
 }
 
