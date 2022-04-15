@@ -107,11 +107,12 @@ function calcPoints(query){
       }
     }
 
-    if(!dart_bool[current_throw])current_throw--;
     if(dart_bool[current_throw]){
       sum += dart[current_throw] * multiplier; 
       score -= dart[current_throw] * multiplier; 
     }
+    if(!dart_bool[current_throw])current_throw--;
+    
   }
   if((score - sum) < 0){
     undo();
