@@ -10,6 +10,9 @@ let dartadd;
 let said;
 let current_throw = 0;
 
+let doc_score, doc_speech;
+let doc_darts, doc_checkouts;
+
 function preload(){
   values = loadJSON('json/values.json');
   multipliers = loadJSON('json/multipliers.json');
@@ -21,7 +24,11 @@ function preload(){
 }
 
 function setup() {
-  createCanvas(820,1180)
+
+  doc_score = document.getElementById("score");
+  doc_speech = document.getElementById("speech");
+  doc_darts = [document.getElementById("dart0"), document.getElementById("dart1"), document.getElementById("dart2")];
+  doc_checkouts = document.getElementById("checkouts");
 
   if(annyang){
 
@@ -138,24 +145,21 @@ function undo(){
 }
 
 function drawScore(){
-  textSize(200);
-  textAlign(CENTER);
-  if(ready)fill(0,255,0);
-  else fill(255,0,0);
-  text(score_temp, width/2, height/4);
-  fill(0,0,0);
+  if(ready)doc_score.style.color = "lightgreen";
+  else doc_score.style.color = "red";
+  doc_score.innerHTML = score_temp;
 }
 
 function drawThrows(){
   for(let i = 0;i<3;i++){
-    textSize(100);
-    textAlign(CENTER);
     if(mulitplier_letters[i] == 1)dartadd = '';
     if(mulitplier_letters[i] == 2)dartadd = 'D';
     if(mulitplier_letters[i] == 3)dartadd = 'T';
-    if(dart_bool[i])fill(0,0,0);
-    else fill(200,200,200);
-    text(dartadd + dart[i].toString(), width/2, height/2 -100 + i * 100);
+
+    if(dart_bool[i])doc_darts[i].style.color = "black";
+    else doc_darts[i].style.color = "lightgray";
+
+    doc_darts[i].innerHTML = dartadd + dart[i].toString();
   }
 }
 
@@ -167,20 +171,15 @@ function drawCheckouts(){
     for(value of array){
       checkout += value + " "; 
     }
-
-    checkout = checkout.replace(",", "  ");
-    fill(0,0,255);
-    text(checkout, width/2, height * 3/4 - 80);  
-    fill(0,0,0);
+    checkout = checkout.replace(",", "  ");    
   }
+  else checkout = "kein checkout"
+  doc_checkouts.innerHTML = checkout;
   
 }
 
 function drawSpeech(){
-  textSize(20);
-  fill(150,150,150);
-  text(said, width/2, height * 1/11 ); 
-  fill(0,0,0); 
+  if(said!=undefined)doc_speech.innerHTML = said;
 }
 
 function drawInstructions(){

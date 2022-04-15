@@ -5,35 +5,51 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Speech Dart</title>
-  <style>
-    body {
-      padding: 0;
-      margin: 0;
-    }
-  </style>
-  <script src="lib/p5.js"></script>
-  <script src="lib/NoSleep.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
-  <script src="main.js"></script>
-  
-
-
+    <link rel="stylesheet" href="style.css">
 </head>
+<script src="lib/p5.js"></script>
+<script src="lib/NoSleep.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+<script src="main.js"></script>
 
 <body>
-  <main>
-    <script>
-      var noSleep = new NoSleep();
-  
-      var wakeLockEnabled = false;
-      addEventListener('click', function() {
-        if (!wakeLockEnabled) {
-          noSleep.enable(); // keep the screen on!
-          wakeLockEnabled = true;
-        }
-      }, false);
-    </script>
-  </main>
+  <div class="frame">
+
+        <p id="speech">kein Kommando erkannt</p>
+        <h1 id="score"></h1>
+
+    
+    <div class="throws">
+        <h3 id="dart0"></h3>
+        <h3 id="dart1"></h3>
+        <h3 id="dart2"></h3>
+    </div>
+
+    <div class="gamedetails">
+        <table>
+            <tr>
+                <td id="checkouts" colspan=3></td>
+            </tr>
+            <tr>
+                <td id="average"></td>
+                <td id="sum"></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script>
+    var noSleep = new NoSleep();
+
+    var wakeLockEnabled = false;
+    addEventListener('click', function() {
+      if (!wakeLockEnabled) {
+        noSleep.enable(); // keep the screen on!
+        wakeLockEnabled = true;
+      }
+    }, false);
+  </script>
 </body>
 
 </html>
