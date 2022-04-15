@@ -1,4 +1,5 @@
 let score = 501;
+let score_temp = 501;
 let dart = [0, 0, 0];
 let dart_bool = [false, false, false];
 let sum = 0;
@@ -81,7 +82,7 @@ function calcPoints(query){
     
     if(dart_bool[i] == true && query.length != 3)current_throw++;
     else current_throw = i;
-
+   
     //check special_values
     for(let j = 0; j < Object.keys(special_values).length; j++){
       if(query[i].includes(special_values[j][0])){
@@ -109,21 +110,21 @@ function calcPoints(query){
 
     if(dart_bool[current_throw]){
       sum += dart[current_throw] * multiplier; 
-      score -= dart[current_throw] * multiplier; 
+      score_temp -= dart[current_throw] * multiplier; 
     }
     if(!dart_bool[current_throw])current_throw--;
-    
+    console.log(dart, dart_bool, score, sum)
   }
   if((score - sum) < 0){
     undo();
     ready = false;
   }
   if(dart_bool[0] == true && dart_bool[1] == true && dart_bool[2] == true)ready=false;
-  console.log(dart_bool, dart)
 }
 
 function resetValues(){
   sum = 0;
+  score = score_temp;
   dart = [0,0,0];
   ready = true;
   mulitplier_letters = [1,1,1];
@@ -132,7 +133,7 @@ function resetValues(){
 }
 
 function undo(){
-  score += sum;
+  score_temp += sum;
   resetValues();
 }
 
@@ -141,7 +142,7 @@ function drawScore(){
   textAlign(CENTER);
   if(ready)fill(0,255,0);
   else fill(255,0,0);
-  text(score, width/2, height/4);
+  text(score_temp, width/2, height/4);
   fill(0,0,0);
 }
 
