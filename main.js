@@ -29,7 +29,7 @@ function setup() {
       commands[activation_words[j] + ' *results'] = 'wakeWordSaid';
     }
 
-    annyang.addCallback('resultNoMatch', function(userSaid, commandText, phrases) {
+    annyang.addCallback('result', function(userSaid, commandText, phrases) {
       console.log(userSaid)
       said = "kein Kommando erkannt";
     });
