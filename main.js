@@ -1,7 +1,7 @@
 let score = [501, 501, 501, 501];
-let score_temp = 501;
+let score_temp;
 let player = 0;
-let player_count = 1;
+let player_count;
 let dart = [0, 0, 0];
 let dart_bool = [false, false, false];
 let sum = 0;
@@ -35,6 +35,8 @@ function setup() {
   doc_checkouts = document.getElementById("checkouts");
   doc_average = document.getElementById("average");
   doc_sum = document.getElementById("sum");
+
+  setgameVariables();
 
   if(annyang){
 
@@ -208,3 +210,12 @@ function drawGameDetails(){
   doc_sum.innerHTML = sum;
 }
 
+function setgameVariables(){
+  url = new URL(window.location.href);
+  player_count = url.searchParams.get("player");
+  let start_score = url.searchParams.get("score");
+  for(let i=0;i<player_count;i++){
+      score[i] = parseInt(start_score);
+    }
+  score_temp = score[0];
+}
