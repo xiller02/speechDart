@@ -1,4 +1,4 @@
-let score = [501, 501, 501, 501];
+let score = [];
 let score_temp = 501;
 let player = 0;
 let player_count = 1;
@@ -222,11 +222,10 @@ function setgameVariables(){
   }
 
   let url_score = url.searchParams.get("score");
-  if(url_score!=undefined){
-    for(let i=0;i<player_count;i++){
-      score[i] = parseInt(url_score);
-    }
-    score_temp = score[0];
+  for(let i=0;i<player_count;i++){
+    if(url_score!=undefined)score.push(parseInt(url_score));
+    else score.push(501);
   }
+  score_temp = score[0];
   
 }
