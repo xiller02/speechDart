@@ -18,13 +18,13 @@ let doc_score, doc_speech, doc_player;
 let doc_darts, doc_checkouts, doc_average;
 
 function preload(){
-  values = loadJSON('json/values.json');
-  multipliers = loadJSON('json/multipliers.json');
-  special_values = loadJSON('json/special_Values.json');
-  checkouts = loadJSON('json/checkouts.json');
-  activation_words = loadJSON('json/activation_words.json');
-  undo_words = loadJSON('json/undo.json');
-  continue_words = loadJSON('json/continue.json');
+  values = loadJSON('../json/values.json');
+  multipliers = loadJSON('../json/multipliers.json');
+  special_values = loadJSON('../json/special_Values.json');
+  checkouts = loadJSON('../json/checkouts.json');
+  activation_words = loadJSON('../json/activation_words.json');
+  undo_words = loadJSON('../json/undo.json');
+  continue_words = loadJSON('../json/continue.json');
 }
 
 function setup() {
