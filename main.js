@@ -1,7 +1,7 @@
 let score = [501, 501, 501, 501];
-let score_temp;
+let score_temp = 501;
 let player = 0;
-let player_count;
+let player_count = 1;
 let dart = [0, 0, 0];
 let dart_bool = [false, false, false];
 let sum = 0;
@@ -66,6 +66,7 @@ function draw(){
   drawCheckouts();
   drawSpeech();
   drawGameDetails();
+  drawPlayer();
   
   //drawInstructions();
 }
@@ -196,7 +197,10 @@ function drawCheckouts(){
 
 function drawSpeech(){
   if(said!=undefined)doc_speech.innerHTML = said;
-  if(player_count > 1)doc_player.innerHTML = player + 1;
+}
+
+function drawPlayer(){
+  if(player_count > 1)doc_player.innerHTML = "Spieler " + (player + 1);
 }
 
 function drawInstructions(){
@@ -212,10 +216,17 @@ function drawGameDetails(){
 
 function setgameVariables(){
   url = new URL(window.location.href);
-  player_count = url.searchParams.get("player");
-  let start_score = url.searchParams.get("score");
-  for(let i=0;i<player_count;i++){
-      score[i] = parseInt(start_score);
+  let url_player = url.searchParams.get("player");
+  if(url_player!=undefined){
+    player_count = url_player
+  }
+
+  let url_score = url.searchParams.get("score");
+  if(url_score!=undefined){
+    for(let i=0;i<player_count;i++){
+      score[i] = parseInt(url_score);
     }
-  score_temp = score[0];
+    score_temp = score[0];
+  }
+  
 }
