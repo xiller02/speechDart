@@ -1,10 +1,12 @@
-let score = 501;
+let score = [];
 let score_temp = 501;
+let player = 0;
+let player_count = 1;
 let dart = [0, 0, 0];
 let dart_bool = [false, false, false];
 let sum = 0;
-let game_sum = 0;
-let throws = 0;
+let game_sum = [0, 0, 0, 0];
+let throws = [0, 0, 0, 0];
 var checkout, values, special_values, activation_words, undo_words, continue_words;
 let ready = true;
 let mulitplier_letters = [1,1,1];
@@ -12,7 +14,7 @@ let dartadd;
 let said;
 let current_throw = 0;
 
-let doc_score, doc_speech;
+let doc_score, doc_speech, doc_player;
 let doc_darts, doc_checkouts, doc_average;
 
 function preload(){
@@ -26,13 +28,15 @@ function preload(){
 }
 
 function setup() {
-
+  doc_player = document.getElementById("player");
   doc_score = document.getElementById("score");
   doc_speech = document.getElementById("speech");
   doc_darts = [document.getElementById("dart0"), document.getElementById("dart1"), document.getElementById("dart2")];
   doc_checkouts = document.getElementById("checkouts");
   doc_average = document.getElementById("average");
   doc_sum = document.getElementById("sum");
+
+  setgameVariables();
 
   if(annyang){
 
@@ -62,6 +66,7 @@ function draw(){
   drawCheckouts();
   drawSpeech();
   drawGameDetails();
+  drawPlayer();
   
   //drawInstructions();
 }
@@ -77,7 +82,12 @@ var wakeWordSaid = function(result) {
 function moveSelection(array){
 
   for(let j = 0; j < Object.keys(continue_words).length; j++){
-    if(array.includes(continue_words[j]))resetValues();
+    if(array.includes(continue_words[j])){
+      resetValues();
+      player++;
+      if(player >= player_count)player=0;
+      score_temp = score[player];
+    }
   }
 
   for(let j = 0; j < Object.keys(undo_words).length; j++){
@@ -135,10 +145,10 @@ function calcPoints(query){
 }
 
 function resetValues(){
-  for(bool of dart_bool)if(bool)throws++;
-  game_sum += sum;
+  for(bool of dart_bool)if(bool)throws[player]++;
+  game_sum[player] += sum;
   sum = 0;
-  score = score_temp;
+  score[player] = score_temp;
   dart = [0,0,0];
   ready = true;
   mulitplier_letters = [1,1,1];
@@ -189,6 +199,10 @@ function drawSpeech(){
   if(said!=undefined)doc_speech.innerHTML = said;
 }
 
+function drawPlayer(){
+  if(player_count > 1)doc_player.innerHTML = "Spieler " + (player + 1);
+}
+
 function drawInstructions(){
   textSize(20);
   text('Sage "Dart, weiter" um die Eingabe zu bestätigen. \n Sage "Dart, noch mal" um die Eingabe rückgängig zu machen.', width/2, height/4 + 50);
@@ -196,7 +210,22 @@ function drawInstructions(){
 }
 
 function drawGameDetails(){
-  if(throws!=0)doc_average.innerHTML = "Ø " + parseFloat((game_sum / throws).toFixed(2));
+  if(throws[player]!=0)doc_average.innerHTML = parseFloat((game_sum[player] / throws[player]).toFixed(2));
   doc_sum.innerHTML = sum;
 }
 
+function setgameVariables(){
+  url = new URL(window.location.href);
+  let url_player = url.searchParams.get("player");
+  if(url_player!=undefined){
+    player_count = url_player
+  }
+
+  let url_score = url.searchParams.get("score");
+  for(let i=0;i<player_count;i++){
+    if(url_score!=undefined)score.push(parseInt(url_score));
+    else score.push(501);
+  }
+  score_temp = score[0];
+  
+}
