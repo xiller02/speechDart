@@ -14,5 +14,4 @@ say "dart" + "zurück" to undo the last inputs.
 # Anregungen für die Zukunft
 
 - online multiplayer (evtl. kleine webcams?)
-- alexa integration (über alexa skill)
-
+- alexa integration (über alexa skill) -> anderes Projekt
