@@ -4,55 +4,41 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Speech Dart</title>
-    <link rel="stylesheet" href="style.css">
+  <title>Dart AI</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<script src="lib/p5.js"></script>
-<script src="lib/NoSleep.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
-<script src="main.js"></script>
 
-<body>
+<body style="background-color: #F4F4F4;">
   <div class="frame">
-
-        <h4 id="player"></h4>
-        <h1 id="score"></h1>
-        <p id="speech">kein Kommando erkannt</p>
+    <img height="300px" width="300px" src="assets/Logo.png"/>
+    <h2>Dart spielen mit Sprachsteuerung</h2>
+    <a href="pages/rules.html"><p><button class="Homebtn">Regeln</button></p></a>
     
-    <div class="throws">
-        <h3 id="dart0"></h3>
-        <h3 id="dart1"></h3>
-        <h3 id="dart2"></h3>
-    </div>
-
-    <div class="gamedetails">
-        <table>
-            <tr>
-                <th id="checkouts" colspan=3></th>
-            </tr>
-            <tr class="details">
-              <th>Ø</th>
-              <th>Summe</th>
-          </tr>
-            <tr class="details">
-                <td id="average">0</td>
-                <td id="sum">0</td>
-            </tr>
-        </table>
-    </div>
-</div>
+    <p>Spieleranzahl:</p>
+    <button type="button" onClick="sub()">-</button>
+    <a id="clicks">1</a>
+    <button type="button" onClick="add()">+</button>
+    <p><button type="button" onClick="start()" class="Homebtn">Spiel starten!</button></p>
+  </div>
 
 <script>
-    var noSleep = new NoSleep();
+        var clicks = 1;
 
-    var wakeLockEnabled = false;
-    addEventListener('click', function() {
-      if (!wakeLockEnabled) {
-        noSleep.enable(); // keep the screen on!
-        wakeLockEnabled = true;
-      }
-    }, false);
-  </script>
+function add() {
+  clicks += 1;
+  document.getElementById("clicks").innerHTML = clicks;
+};
+
+function sub() {
+  clicks -= 1;
+  if(clicks<1)clicks=1;
+  document.getElementById("clicks").innerHTML = clicks;
+};
+
+function start(){
+  window.location.replace(window.location.origin + '/pages/game.html?player=' + clicks);
+};
+</script>
 </body>
 
 </html>

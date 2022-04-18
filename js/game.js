@@ -18,13 +18,13 @@ let doc_score, doc_speech, doc_player;
 let doc_darts, doc_checkouts, doc_average;
 
 function preload(){
-  values = loadJSON('json/values.json');
-  multipliers = loadJSON('json/multipliers.json');
-  special_values = loadJSON('json/special_Values.json');
-  checkouts = loadJSON('json/checkouts.json');
-  activation_words = loadJSON('json/activation_words.json');
-  undo_words = loadJSON('json/undo.json');
-  continue_words = loadJSON('json/continue.json');
+  values = loadJSON('../json/values.json');
+  multipliers = loadJSON('../json/multipliers.json');
+  special_values = loadJSON('../json/special_Values.json');
+  checkouts = loadJSON('../json/checkouts.json');
+  activation_words = loadJSON('../json/activation_words.json');
+  undo_words = loadJSON('../json/undo.json');
+  continue_words = loadJSON('../json/continue.json');
 }
 
 function setup() {
@@ -179,7 +179,7 @@ function drawThrows(){
     doc_darts[i].innerHTML = dartadd + dart[i].toString();
   }
 }
-
+//sobald checkouts möglich, nach jedem Dart "der geworfen wurde" Checkouts anpassen
 function drawCheckouts(){
   array = checkouts[score.toString()];
 
@@ -210,7 +210,7 @@ function drawInstructions(){
 }
 
 function drawGameDetails(){
-  if(throws[player]!=0)doc_average.innerHTML = parseFloat((game_sum[player] / throws[player]).toFixed(2));
+  if(throws[player]!=0)doc_average.innerHTML = parseFloat((game_sum[player] / (throws[player]/3)).toFixed(2));
   doc_sum.innerHTML = sum;
 }
 
