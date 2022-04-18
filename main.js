@@ -179,7 +179,7 @@ function drawThrows(){
     doc_darts[i].innerHTML = dartadd + dart[i].toString();
   }
 }
-
+//sobald checkouts möglich, nach jedem Dart "der geworfen wurde" Checkouts anpassen
 function drawCheckouts(){
   array = checkouts[score.toString()];
 
@@ -210,7 +210,7 @@ function drawInstructions(){
 }
 
 function drawGameDetails(){
-  if(throws[player]!=0)doc_average.innerHTML = parseFloat((game_sum[player] / throws[player]).toFixed(2));
+  if(throws[player]!=0)doc_average.innerHTML = parseFloat((game_sum[player] / (throws[player]/3)).toFixed(2));
   doc_sum.innerHTML = sum;
 }
 
