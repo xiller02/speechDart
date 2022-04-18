@@ -11,3 +11,8 @@ say "dart" + "weiter" to start the next throw.
 
 say "dart" + "zurück" to undo the last inputs.
 
+# Anregungen für die Zukunft
+
+- online multiplayer (evtl. kleine webcams?)
+- alexa integration (über alexa skill)
+
